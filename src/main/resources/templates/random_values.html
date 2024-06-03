@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Values Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Random Values</h1>
+
+<!-- 테이블 표시 -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Input Value</th>
+        <th>Random Value</th>
+    </tr>
+    <tr th:each="value : ${randomValues}">
+        <td th:text="${value.id}"></td>
+        <td th:text="${value.inputValue}"></td>
+        <td th:text="${value.randomValue}"></td>
+    </tr>
+</table>
+
+<!-- 차트 표시 -->
+<div style="width:50% ;height:50%">
+<canvas id="randomValuesChart" width="300" height="150"></canvas>
+</div>
+
+<script th:inline="javascript">
+    /*[[${randomValues}]] 데이터를 JavaScript 배열로 변환 */
+    var randomValues = /*[[${randomValues}]]*/ [];
+    var labels = randomValues.map(function(value) {
+        return value.id;
+    });
+    var data = randomValues.map(function(value) {
+        return value.randomValue;
+    });
+
+    var ctx = document.getElementById('randomValuesChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line', // bar, line, pie, etc.
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Random Values',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                tension: 0.4 // 곡선의 부드러움 조정
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            maintainAspectRatio: false
+        }
+    });
+</script>
+</body>
+</html>
