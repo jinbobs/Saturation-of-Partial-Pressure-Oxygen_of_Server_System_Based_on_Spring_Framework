@@ -1,6 +1,7 @@
 package com.jins.jin.config;
 
-import com.jins.jin.entity.RandomValue;
+
+import com.jins.jin.entity.SensorData;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
-    public RandomValue randomValue() {
-        return new RandomValue();
+    public SensorData sensorData() {
+        return new SensorData();
     }
+
 }
