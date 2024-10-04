@@ -32,6 +32,7 @@ public class UserController {
         // 비밀번호 암호화 후 저장
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         userRepository.save(users);
+        System.out.println("저장완료");
         return "redirect:/login";
     }
 

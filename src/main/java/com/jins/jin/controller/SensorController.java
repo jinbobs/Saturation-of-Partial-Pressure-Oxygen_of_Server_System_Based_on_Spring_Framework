@@ -36,6 +36,7 @@ import java.util.List;
         }
 
         // POST 요청을 통해 SensorData 수신
+
         @PostMapping("/sensor-data") // POST 요청 경로
         public ResponseEntity<String> receiveSensorData(@RequestBody SensorData sensorData) {
             try {
