@@ -15,19 +15,22 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 
-// POST 요청을 통해 SensorData 수신
+
     @Controller
     public class SensorController {
 
+        @Autowired
         private final SensorService sensorService;
+
+
 
         @Autowired
         public SensorController(SensorService sensorService) {
             this.sensorService = sensorService;
         }
 
-        // 메인 페이지 매핑
-        @GetMapping("/") // 기본 URL 경로
+
+        @GetMapping("/")
         public String mainPage() {
             return "main"; // main.html 반환
         }
@@ -42,8 +45,12 @@ import java.util.List;
 
                 // 데이터 저장
                 sensorService.saveSensorData(sensorData);
+                System.out.println("Data saved to database.");
+
                 return ResponseEntity.ok("Data received successfully");
-            } catch (Exception e) {
+            }
+
+            catch (Exception e) {
                 // 예외 발생 시 서버 에러와 메시지 출력
                 e.printStackTrace();  // 에러 로그 출력
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
@@ -67,10 +74,9 @@ import java.util.List;
                     output.append(line).append("\n");
                 }
 
-                // 프로세스 종료 대기
                 process.waitFor();
 
-                // Python 스크립트의 결과를 로그에 출력
+
                 System.out.println("Python 실행 결과: " + output.toString());
 
             } catch (Exception e) {
@@ -79,10 +85,10 @@ import java.util.List;
                 return "sensor";
             }
 
-            // Python 스크립트 실행 후 DB에서 최신 데이터 가져오기
+
             SensorData sensorData = sensorService.getLatestSensorData();
 
-            // DB에서 가져온 데이터를 모델에 추가
+
             if (sensorData != null) {
                 model.addAttribute("hr", sensorData.getHr());
                 model.addAttribute("spo2", sensorData.getSpo2());

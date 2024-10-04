@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form th:action="@{/login}" method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+<p>계정이 없나용? <a th:href="@{/register}">Register here</a></p>
+
+</body>
+</html>
+</body>
+</html>

@@ -4,9 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sensor Data</title>
+  <style>
+    /* 스플래시 화면 스타일 */
+    #splash {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      font-size: 2rem;
+      padding-top: 40vh;
+      animation: fadein 0.5s;
+    }
+
+    /* 로딩 애니메이션 */
+    .spinner {
+      border: 8px solid rgba(255, 255, 255, 0.3);
+      border-top: 8px solid white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 페이드 인 애니메이션 */
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
 <h1>산소포화도 및 맥박 데이터</h1>
-<button onclick="window.location.href='/sensor-data'">데이터 측정하기</button>
+<button id="measureButton">데이터 측정하기</button>
+
+
+<div id="splash">
+  <div class="spinner"></div>
+  <p>데이터 측정 중... 잠시만 기다려 주세요</p>
+</div>
+
+<script>
+  document.getElementById("measureButton").addEventListener("click", function(event) {
+
+    document.getElementById("splash").style.display = "block";
+
+    // 페이지 이동을 0.5초 지연 후 실행
+    setTimeout(function() {
+      window.location.href = '/sensor-data'; // 페이지 이동
+    }, 500);  // 지연 시간을 조절 가능
+  });
+</script>
+
 </body>
 </html>

@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 @Table(name = "sensordata")
 public class SensorData {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // IDENTITY로 변경
-    private Long id; // 데이터베이스에서 자동 생성되는 ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private double hr; // 맥박
     private double spo2; // 산소포화도
 
