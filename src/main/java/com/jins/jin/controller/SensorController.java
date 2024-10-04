@@ -37,26 +37,7 @@ import java.util.List;
 
         // POST 요청을 통해 SensorData 수신
 
-        @PostMapping("/sensor-data") // POST 요청 경로
-        public ResponseEntity<String> receiveSensorData(@RequestBody SensorData sensorData) {
-            try {
-                // 데이터 로그 출력
-                System.out.println("Received HR: " + sensorData.getHr());
-                System.out.println("Received SPO2: " + sensorData.getSpo2());
 
-                // 데이터 저장
-                sensorService.saveSensorData(sensorData);
-                System.out.println("Data saved to database.");
-
-                return ResponseEntity.ok("Data received successfully");
-            }
-
-            catch (Exception e) {
-                // 예외 발생 시 서버 에러와 메시지 출력
-                e.printStackTrace();  // 에러 로그 출력
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
-            }
-        }
 
         // GET 요청을 통해 SensorData를 가져오는 메서드
         @GetMapping("/sensor-data")
@@ -103,6 +84,25 @@ import java.util.List;
             List<SensorData> sensorDataList = sensorService.getAllSensorData();
             model.addAttribute("sensorDataList", sensorDataList);
 
+
             return "sensor"; // sensor.html 반환
         }
+
+        @PostMapping("/sensor-data")
+        public ResponseEntity<String> receiveSensorData(@RequestBody SensorData sensorData) {
+            try {
+                // 데이터 로그 출력
+                System.out.println("Received HR: " + sensorData.getHr());
+                System.out.println("Received SPO2: " + sensorData.getSpo2());
+
+                // 데이터 저장
+                sensorService.saveSensorData(sensorData);
+                return ResponseEntity.ok("Data received successfully");
+            } catch (Exception e) {
+                // 예외 발생 시 서버 에러와 메시지 출력
+                e.printStackTrace();  // 에러 로그 출력
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+            }
+        }
+
     }

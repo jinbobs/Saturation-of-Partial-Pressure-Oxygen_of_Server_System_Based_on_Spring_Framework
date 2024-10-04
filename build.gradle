@@ -22,7 +22,7 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.26' // 여기에 버전을 명시적으로 추가합니다
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.projectlombok:lombok:1.18.24'
-
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
