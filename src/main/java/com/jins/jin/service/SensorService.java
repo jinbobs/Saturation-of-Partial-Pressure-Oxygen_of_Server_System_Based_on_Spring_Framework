@@ -24,9 +24,10 @@ public class SensorService {
         sensorDataRepository.save(sensorData); // 데이터 저장
     }
 
+    //나중에 사용할수도 있는  메소드들 미리 써놓음
     public SensorData getLatestSensorData() {
-        // 가장 최근의 SensorData를 가져오는 로직
-        return sensorDataRepository.findTopByOrderByIdDesc(); // 데이터베이스의 최신 데이터 반환
+
+        return sensorDataRepository.findTopByOrderByIdDesc();
     }
     public List<SensorData> getAllSensorData() {
         return sensorDataRepository.findAll();

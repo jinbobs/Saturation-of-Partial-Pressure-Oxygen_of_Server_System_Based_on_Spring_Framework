@@ -2,6 +2,8 @@ package com.jins.jin.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class Users {
@@ -13,6 +15,9 @@ public class Users {
     private String username;
 
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SensorData> sensorDataList;
 
     // Getter and Setter for id
     public Long getId() {
@@ -39,6 +44,13 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public List<SensorData> getSensorDataList() {
+        return sensorDataList;
+    }
+
+    public void setSensorDataList(List<SensorData> sensorDataList) {
+        this.sensorDataList = sensorDataList;
     }
     public Users(){}
 }

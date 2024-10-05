@@ -6,20 +6,48 @@
 <body>
 <h1>Latest Sensor Data</h1>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Heart Rate (HR)</th>
-        <th>Oxygen Saturation (SPO2)</th>
-        <th>Measurement Date</th>
-    </tr>
-    <tr>
-        <td th:text="${sensorData.id}"></td>
-        <td th:text="${sensorData.hr}"></td>
-        <td th:text="${sensorData.spo2}"></td>
-        <td th:text="${sensorData.measurementDate}"></td>
-    </tr>
-</table>
+<!-- 최신 센서 데이터 테이블 -->
+<div th:if="${sensorData != null}">
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Heart Rate (HR)</th>
+            <th>Oxygen Saturation (SPO2)</th>
+            <th>Measurement Date</th>
+        </tr>
+        <tr>
+            <td th:text="${sensorData.id}"></td>
+            <td th:text="${sensorData.hr}"></td>
+            <td th:text="${sensorData.spo2}"></td>
+            <td th:text="${sensorData.measurementDate}"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- sensorData가 null일 경우 오류 메시지 출력 -->
+<p th:if="${sensorData == null}" style="color: red;">No sensor data available.</p>
+
+<!-- 모든 센서 데이터를 나열하는 테이블 -->
+<h2>All Sensor Data</h2>
+<div th:if="${sensorDataList != null}">
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Heart Rate (HR)</th>
+            <th>Oxygen Saturation (SPO2)</th>
+            <th>Measurement Date</th>
+        </tr>
+        <tr th:each="sensorData : ${sensorDataList}">
+            <td th:text="${sensorData.id}"></td>
+            <td th:text="${sensorData.hr}"></td>
+            <td th:text="${sensorData.spo2}"></td>
+            <td th:text="${sensorData.measurementDate}"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- sensorDataList가 null일 경우 오류 메시지 출력 -->
+<p th:if="${sensorDataList == null}" style="color: red;">No sensor data available for this user.</p>
 
 <div th:if="${error}">
     <p th:text="${error}" style="color: red;"></p>

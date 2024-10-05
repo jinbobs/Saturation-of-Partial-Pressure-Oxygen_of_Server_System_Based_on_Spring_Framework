@@ -16,6 +16,10 @@ public class SensorData {
 
     private LocalDate measurementDate;
 
+    // N대1 관계 설정: 여러 SensorData는 한 User에 속함
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")  // 외래 키 컬럼 지정
+    private Users user;
 
     public Long getId() {
         return id;
@@ -47,6 +51,14 @@ public class SensorData {
 
     public void setMeasurementDate(LocalDate measurementDate) {
         this.measurementDate = measurementDate;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
     // 기본 생성자 및 매개변수 생성자
     public SensorData() {}
