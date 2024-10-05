@@ -10,13 +10,11 @@
 <div th:if="${sensorData != null}">
     <table border="1">
         <tr>
-            <th>ID</th>
             <th>Heart Rate (HR)</th>
             <th>Oxygen Saturation (SPO2)</th>
             <th>Measurement Date</th>
         </tr>
         <tr>
-            <td th:text="${sensorData.id}"></td>
             <td th:text="${sensorData.hr}"></td>
             <td th:text="${sensorData.spo2}"></td>
             <td th:text="${sensorData.measurementDate}"></td>
@@ -32,13 +30,11 @@
 <div th:if="${sensorDataList != null}">
     <table border="1">
         <tr>
-            <th>ID</th>
             <th>Heart Rate (HR)</th>
             <th>Oxygen Saturation (SPO2)</th>
             <th>Measurement Date</th>
         </tr>
         <tr th:each="sensorData : ${sensorDataList}">
-            <td th:text="${sensorData.id}"></td>
             <td th:text="${sensorData.hr}"></td>
             <td th:text="${sensorData.spo2}"></td>
             <td th:text="${sensorData.measurementDate}"></td>
