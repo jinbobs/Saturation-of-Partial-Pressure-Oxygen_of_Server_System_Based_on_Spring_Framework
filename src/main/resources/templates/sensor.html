@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sensor Data</title>
+    <title>Latest Sensor Data</title>
 </head>
 <body>
-<h1>Sensor Data</h1>
-<p>Average Heart Rate: <span th:text="${hr}">N/A</span></p>
-<p>Average SPO2: <span th:text="${spo2}">N/A</span></p>
+<h1>Latest Sensor Data</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Heart Rate (HR)</th>
+        <th>Oxygen Saturation (SPO2)</th>
+        <th>Measurement Date</th>
+    </tr>
+    <tr>
+        <td th:text="${sensorData.id}"></td>
+        <td th:text="${sensorData.hr}"></td>
+        <td th:text="${sensorData.spo2}"></td>
+        <td th:text="${sensorData.measurementDate}"></td>
+    </tr>
+</table>
+
+<div th:if="${error}">
+    <p th:text="${error}" style="color: red;"></p>
+</div>
 </body>
 </html>

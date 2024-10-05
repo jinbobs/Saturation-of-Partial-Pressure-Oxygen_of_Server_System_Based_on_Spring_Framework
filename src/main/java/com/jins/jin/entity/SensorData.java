@@ -3,6 +3,8 @@ package com.jins.jin.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "sensordata")
 public class SensorData {
@@ -11,6 +13,9 @@ public class SensorData {
     private Long id;
     private double hr; // 맥박
     private double spo2; // 산소포화도
+
+    private LocalDate measurementDate;
+
 
     public Long getId() {
         return id;
@@ -36,6 +41,13 @@ public class SensorData {
         this.spo2 = spo2;
     }
 
+    public LocalDate getMeasurementDate() {
+        return measurementDate;
+    }
+
+    public void setMeasurementDate(LocalDate measurementDate) {
+        this.measurementDate = measurementDate;
+    }
     // 기본 생성자 및 매개변수 생성자
     public SensorData() {}
 

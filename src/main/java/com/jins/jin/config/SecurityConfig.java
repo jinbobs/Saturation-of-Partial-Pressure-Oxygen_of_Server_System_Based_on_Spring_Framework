@@ -14,6 +14,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 .authorizeHttpRequests((authz) -> authz
                         // 인증 없이 접근할 수 있는 경로 설정
                         .requestMatchers( "/login", "/register", "/css/**", "/js/**").permitAll()
