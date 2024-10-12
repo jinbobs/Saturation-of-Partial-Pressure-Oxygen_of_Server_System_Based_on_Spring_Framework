@@ -1,52 +1,131 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Latest Sensor Data</title>
+    <!-- 구글 폰트 Noto Sans KR 링크 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #222;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #78c7d2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #555;
+        }
+
+        th {
+            background-color: #6200ee;
+            color: white;
+        }
+
+        td {
+            background-color: #333;
+        }
+
+        p {
+            text-align: center;
+            color: red;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Latest Sensor Data</h1>
 
-<!-- 최신 센서 데이터 테이블 -->
-<div th:if="${sensorData != null}">
-    <table border="1">
-        <tr>
-            <th>Heart Rate (HR)</th>
-            <th>Oxygen Saturation (SPO2)</th>
-            <th>Measurement Date</th>
-        </tr>
-        <tr>
-            <td th:text="${sensorData.hr}"></td>
-            <td th:text="${sensorData.spo2}"></td>
-            <td th:text="${sensorData.measurementDate}"></td>
-        </tr>
-    </table>
+<div class="container">
+    <h1>Latest Sensor Data</h1>
+
+    <!-- 최신 센서 데이터 테이블 -->
+    <div th:if="${sensorData != null}">
+        <table>
+            <thead>
+            <tr>
+                <th>Heart Rate (HR)</th>
+                <th>Oxygen Saturation (SPO2)</th>
+                <th>Measurement Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${sensorData.hr}"></td>
+                <td th:text="${sensorData.spo2}"></td>
+                <td th:text="${sensorData.measurementDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- sensorData가 null일 경우 오류 메시지 출력 -->
+    <p th:if="${sensorData == null}">No sensor data available.</p>
+
+    <!-- 모든 센서 데이터를 나열하는 테이블 -->
+    <h2>All Sensor Data</h2>
+    <div th:if="${sensorDataList != null}">
+        <table>
+            <thead>
+            <tr>
+                <th>Heart Rate (HR)</th>
+                <th>Oxygen Saturation (SPO2)</th>
+                <th>Measurement Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="sensorData : ${sensorDataList}">
+                <td th:text="${sensorData.hr}"></td>
+                <td th:text="${sensorData.spo2}"></td>
+                <td th:text="${sensorData.measurementDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- sensorDataList가 null일 경우 오류 메시지 출력 -->
+    <p th:if="${sensorDataList == null}">No sensor data available for this user.</p>
+
+    <!-- 에러 메시지 출력 -->
+    <div th:if="${error}">
+        <p th:text="${error}" class="error-message"></p>
+    </div>
 </div>
 
-<!-- sensorData가 null일 경우 오류 메시지 출력 -->
-<p th:if="${sensorData == null}" style="color: red;">No sensor data available.</p>
-
-<!-- 모든 센서 데이터를 나열하는 테이블 -->
-<h2>All Sensor Data</h2>
-<div th:if="${sensorDataList != null}">
-    <table border="1">
-        <tr>
-            <th>Heart Rate (HR)</th>
-            <th>Oxygen Saturation (SPO2)</th>
-            <th>Measurement Date</th>
-        </tr>
-        <tr th:each="sensorData : ${sensorDataList}">
-            <td th:text="${sensorData.hr}"></td>
-            <td th:text="${sensorData.spo2}"></td>
-            <td th:text="${sensorData.measurementDate}"></td>
-        </tr>
-    </table>
-</div>
-
-<!-- sensorDataList가 null일 경우 오류 메시지 출력 -->
-<p th:if="${sensorDataList == null}" style="color: red;">No sensor data available for this user.</p>
-
-<div th:if="${error}">
-    <p th:text="${error}" style="color: red;"></p>
-</div>
 </body>
 </html>

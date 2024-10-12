@@ -15,4 +15,8 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Long> {
     // 특정 사용자의 모든 SensorData 가져오기
     List<SensorData> findByUser(Users user);
 
+    // 특정 사용자(userId)의 가장 최근 산소포화도 데이터를 가져오는 메서드
+    SensorData findTopByUserIdOrderByMeasurementDateDesc(Long userId);
+
+
 }

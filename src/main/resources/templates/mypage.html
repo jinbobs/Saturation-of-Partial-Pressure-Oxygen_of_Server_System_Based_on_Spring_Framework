@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+
+    <!-- Bootstrap CSS 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1c023b; /* 배경색 */
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 0 20px; /* 좌우 여백 추가 */
+        }
+
+        .mypage-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            width: 100%; /* 전체 화면을 채움 */
+            max-width: 1200px; /* 최대 폭 제한 */
+            overflow: hidden;
+        }
+
+        .mypage-left {
+            background-color: #3b005f;
+            color: white;
+            width: 40%; /* 왼쪽 영역을 좀 더 키움 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .mypage-right {
+            width: 60%; /* 오른쪽 영역을 키움 */
+            padding: 60px;
+        }
+
+        .mypage-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .mypage-header h2 {
+            color: #4c0483;
+            font-size: 2rem; /* 더 큰 폰트 */
+        }
+
+        .sensor-data-button {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            color: #f44336;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sensor-data-button:hover {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .sensor-data-button .bpm {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .sensor-data-button .date {
+            font-size: 1rem;
+            color: #757575;
+        }
+
+        .sensor-data-button .icon {
+            font-size: 1.5rem;
+            color: #f44336;
+        }
+
+        .sensor-data-button:hover .icon {
+            color: white;
+        }
+
+        /* 프로필 업데이트 버튼 */
+        .profile-update-button {
+            background-color: #e0f7fa;
+            border: 2px solid #00acc1;
+            color: #00acc1;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-update-button:hover {
+            background-color: #00acc1;
+            color: white;
+        }
+
+        .profile-update-button .icon {
+            font-size: 1.5rem;
+            color: #00acc1;
+        }
+
+        .profile-update-button:hover .icon {
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="mypage-container">
+        <!-- 왼쪽 영역 -->
+        <div class="mypage-left">
+            <div>
+                <h2>내 정보</h2>
+                <p>사용자 정보를 확인하고 업데이트하세요.</p>
+            </div>
+        </div>
+
+        <!-- 오른쪽 마이페이지 폼 영역 -->
+        <div class="mypage-right">
+            <div class="mypage-header">
+                <h2>My Page</h2>
+                <p>내 프로필 정보 및 산소포화도 기록을 확인하세요.</p>
+            </div>
+
+            <!-- 프로필 업데이트 버튼 -->
+            <div class="profile-update-section">
+                <h3>프로필 업데이트</h3>
+                <button class="profile-update-button" data-bs-toggle="modal" data-bs-target="#profileUpdateModal">
+                    <div>프로필 업데이트</div>
+                    <div class="icon"><i class="fas fa-user-edit"></i></div>
+                </button>
+            </div>
+
+            <!-- 산소포화도 기록 보기 버튼 -->
+            <div class="sensor-data-section" style="margin-top: 20px;">
+                <h3>내 산소포화도 기록</h3>
+                <!-- SPO2 버튼 - 가장 최근 측정 값과 날짜 표시 -->
+                <button class="sensor-data-button" data-bs-toggle="modal" data-bs-target="#sensorDataModal">
+                    <div>
+                        <div class="spo2" th:text="${recentSensorData.spo2 + '%'}">98%</div> <!-- 최근 SPO2 값 -->
+                        <div class="date" th:text="${recentSensorData.measurementDate}">2024-10-07</div> <!-- 최근 날짜 -->
+                    </div>
+                    <div class="icon"><i class="fas fa-heart"></i></div>
+                </button>
+            </div>
+
+            <!-- 로그아웃 링크 -->
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-danger mt-4">로그아웃</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 프로필 업데이트 모달 -->
+<div class="modal fade" id="profileUpdateModal" tabindex="-1" aria-labelledby="profileUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileUpdateModalLabel">프로필 업데이트</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/update-profile}" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">아이디</label>
+                        <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 변경하려면 입력하세요">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">프로필 업데이트</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 산소포화도 기록 모달 -->
+<div class="modal fade" id="sensorDataModal" tabindex="-1" aria-labelledby="sensorDataModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sensorDataModalLabel">산소포화도 기록</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>측정일</th>
+                        <th>맥박 (HR)</th>
+                        <th>산소포화도 (SPO2)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="sensorData : ${sensorDataList}">
+                        <td th:text="${sensorData.measurementDate}"></td>
+                        <td th:text="${sensorData.hr}"></td>
+                        <td th:text="${sensorData.spo2}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS 및 Popper.js 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Font Awesome JS 추가 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+</body>
+</html>

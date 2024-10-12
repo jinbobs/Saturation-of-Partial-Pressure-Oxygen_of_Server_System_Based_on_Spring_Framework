@@ -33,12 +33,10 @@ public class UserController {
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         userRepository.save(users);
         System.out.println("저장완료");
-        return "redirect:/login";
+        return "redirect:/";
     }
 
-    // 로그인 페이지
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
+
+
+
 }
