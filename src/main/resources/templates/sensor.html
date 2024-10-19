@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest Sensor Data</title>
+    <title>OxygenCare</title>
     <!-- 구글 폰트 Noto Sans KR 링크 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,116 +16,297 @@
             color: white;
             margin: 0;
             padding: 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            z-index: 1000;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 100px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 600;
+            color: white;
+            font-size: 28px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .logo-circle {
+            width: 20px;
+            height: 20px;
+            background-color: #6200EE;
+            border-radius: 50%;
+        }
+
+        .logo-link:hover .logo {
+            text-decoration: none;
+        }
+
+        header nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding-top: 140px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
-        .container {
-            background-color: #222;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            width: 100%;
+        section {
+            position: relative;
+            scroll-margin-top: 120px;
+            transform: translateY(50px);
+            transition: opacity 1.0s ease-out, transform 0.6s ease-out;
+            opacity: 0;
         }
 
-        h1, h2 {
-            text-align: center;
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quote-image {
+            display: block;
+            margin: 0 auto 20px;
+            width: 50px;
+            height: auto;
+
+        }
+
+        h2 {
             color: #78c7d2;
         }
+        .normal-section {
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #555;
-        }
-
-        th {
-            background-color: #6200ee;
             color: white;
-        }
-
-        td {
-            background-color: #333;
-        }
-
-        p {
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
-            color: red;
+            margin: 40px 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .large-text.left-align {
+            text-align: left; /* 왼쪽 정렬 */
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #FFFFFF;
         }
 
-        .error-message {
-            color: red;
-            text-align: center;
+        .normal-section p {
+            font-size: 18px;
+            line-height: 1.6;
         }
 
+        .quote-image {
+            display: block;
+            margin: 0 auto 20px;
+            width: 40px;
+            height: auto;
+        }
+
+        /* 애니메이션 효과 */
+        .normal-section {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .normal-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 1s; /* 1초 뒤에 내부 내용이 나타남 */
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Latest Sensor Data</h1>
+<!-- 헤더 -->
+<header>
+    <nav>
+        <div class="logo-container">
+            <a href="/" class="logo-link">
+                <div class="logo">OxygenCare <div class="logo-circle"></div></div>
+            </a>
+        </div>
+        <div>
+            <a href="/">Home</a>
+        </div>
+        <div>
+            <a href="#" id="loginBtn">로그인</a>
+            <a href="/logout">로그아웃</a>
+        </div>
+    </nav>
+</header>
 
-    <!-- 최신 센서 데이터 테이블 -->
-    <div th:if="${sensorData != null}">
-        <table>
-            <thead>
-            <tr>
-                <th>Heart Rate (HR)</th>
-                <th>Oxygen Saturation (SPO2)</th>
-                <th>Measurement Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td th:text="${sensorData.hr}"></td>
-                <td th:text="${sensorData.spo2}"></td>
-                <td th:text="${sensorData.measurementDate}"></td>
-            </tr>
-            </tbody>
-        </table>
+<main>
+    <!-- 측정 결과 섹션 -->
+    <section class="sensor-section" th:if="${sensorData != null}">
+        <img src="/images/큰따옴표.png" alt="큰따옴표 이미지" class="quote-image">
+        <h1>측정 결과</h1>
+        <div>
+            <strong>맥박 (HR): </strong>
+            <span th:text="${sensorData.hr}"></span> bpm
+        </div>
+        <div>
+            <strong>산소포화도 (SPO2): </strong>
+            <span th:text="${sensorData.spo2}"></span> %
+        </div>
+        <div>
+            <strong>측정일: </strong>
+            <span th:text="${sensorData.measurementDate}"></span>
+        </div>
+    </section>
+
+    <p th:if="${sensorData == null}">측정 데이터를 사용할 수 없습니다.</p>
+</main>
+
+<!-- 산소포화도 값에 따른 섹션들 -->
+<section th:if="${sensorData.spo2 >= 95 && sensorData.spo2 <= 100}" class="normal-section" style="background: #030303; padding: 40px; border-radius: 20px; color: white;">
+
+    <div
+            style="width: 1905px; height: 772px; position: relative; overflow: hidden; background: #030303;"
+    >
+        <p
+                style="width: 741px; height: 58px; position: absolute; left: 135px; top: 61px; font-size: 48px; text-align: left; color: #fff;"
+        >
+            정상적인 산소포화도 값이 나왔어요😀
+        </p>
+        <img
+                src="/images/산소포화도수치.PNG"
+                style="width: 826px; height: 160px; position: absolute; left: 1016px; top: 118px; border-radius: 20px; object-fit: cover;"
+        />
+        <p
+                style="position: absolute; left: 1091px; top: 290px; font-size: 12px; text-align: left; color: #fff;"
+        >
+            호흡기 질환 등이 없는 경우 산소포화도 수치가 95% 이상이면 정상으로 판단하며 평소 수치와 다를
+            때는 의사와 상담해야 합니다.
+        </p>
+        <img
+                src="/images/산소포화도순환.PNG"
+                style="width: 271px; height: 462px; position: absolute; left: 134px; top: 225px; border-radius: 30px; object-fit: cover;"
+        />
+        <p
+                style="width: 348px; height: 360px; position: absolute; left: 437px; top: 226px; font-size: 16px; text-align: left; color: #fff;"
+        >
+            산소는 적혈구의 단백질인 헤모글로빈과 결합되어 신체의 조직과 세포로 이동하게 되는데 이때
+            산소포화도란 혈액 속에서 헤모글로빈과 합쳐진 산소량의 최대치를 백분율로 나타낸 수치입니다. 혈액
+            속 산소의 농도를 수치로 확인함으로써 신체에 산소 공급이 원활히 잘되고 있는지 확인할 수 있습니다.
+            일반적인 산소포화도 수치는 정상인의 경우 95% 이상이라고 하며, 95% 이하로 떨어지는 경우 저산소증
+            주의 상태로 여겨집니다. 90% 이하는 저산소증으로 인해 두통, 호흡곤란 등이 증상으로 발생하고,
+            심각한 경우 정신을 잃을 수도 있다고 합니다. 저산소증일 경우 뇌와 심장을 포함한 다양한 신체
+            기관에 산소 공급이 부족해지면서 고혈압, 뇌경색 등 중증 질환에 노출될 위험성이 커집니다.
+            코로나19에 감염된 사람들을 폐렴과 같은 중증으로 악화시키는 요인이 발열, 심장 손상, 기저질환,
+            산소포화도 92% 미만 등이라고 합니다. 갑자기 의식을 잃거나 위험한 상황을 방지하기 위해 코로나19
+            재택치료 시 산소포화도 측정은 필히 해야 합니다.
+        </p>
+        <p
+                style="position: absolute; left: 935px; top: 416px; font-size: 24px; text-align: left; color: #fff;"
+        >
+            산소포화도 값이 낮을 경우?
+        </p>
+        <p
+                style="width: 955px; height: 133px; position: absolute; left: 926px; top: 464px; font-size: 14px; text-align: left; color: #fff;"
+        >
+    <span style="width: 955px; height: 133px; font-size: 14px; text-align: left; color: #fff;"
+    >산소포화도가 낮다는 것은 산소 공급이 충분하지 않다는 것을 의미하며, 이는 다양한 원인에 의해
+      발생할 수 있습니다. 예를 들어, 폐 질환, 심장 질환, 빈혈, 흡연 등이 있습니다. </span
+    ><br /><span
+                style="width: 955px; height: 133px; font-size: 14px; text-align: left; color: #fff;"
+        >산소포화도를 높이기 위한 방법은 그 원인에 따라 다릅니다. 만약 폐 질환 등의 기저질환이
+      원인이라면, 그 질환을 치료하는 것이 우선입니다. 이 경우에는 적절한 약물 치료가 필요할 수
+      있습니다. </span
+        ><br /><span
+                style="width: 955px; height: 133px; font-size: 14px; text-align: left; color: #fff;"
+        >흡연이 원인이라면 담배를 끊는 것이 가장 중요합니다. 또한, 꾸준한 운동과 건강한 식습관을
+      유지하는 것도 중요합니다. </span
+        ><br /><span
+                style="width: 955px; height: 133px; font-size: 14px; text-align: left; color: #fff;"
+        >산소포화도가 매우 낮아 호흡곤란이나 다른 증상이 있는 경우, 산소 치료가 필요할 수 있습니다.
+      이는 병원에서 진행되며, 산소 마스크나 산소 통을 이용합니다.</span
+        ><br /><span
+                style="width: 955px; height: 133px; font-size: 14px; text-align: left; color: #fff;"
+        >따라서 산소포화도가 낮은 원인을 찾아 그에 따른 적절한 치료를 받는 것이 중요합니다. 정확한
+      진단과 치료를 위해선 의사와 상의하는 것이 좋습니다</span
+        >
+        </p>
     </div>
 
-    <!-- sensorData가 null일 경우 오류 메시지 출력 -->
-    <p th:if="${sensorData == null}">No sensor data available.</p>
+</section>
 
-    <!-- 모든 센서 데이터를 나열하는 테이블 -->
-    <h2>All Sensor Data</h2>
-    <div th:if="${sensorDataList != null}">
-        <table>
-            <thead>
-            <tr>
-                <th>Heart Rate (HR)</th>
-                <th>Oxygen Saturation (SPO2)</th>
-                <th>Measurement Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="sensorData : ${sensorDataList}">
-                <td th:text="${sensorData.hr}"></td>
-                <td th:text="${sensorData.spo2}"></td>
-                <td th:text="${sensorData.measurementDate}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <!-- sensorDataList가 null일 경우 오류 메시지 출력 -->
-    <p th:if="${sensorDataList == null}">No sensor data available for this user.</p>
 
-    <!-- 에러 메시지 출력 -->
-    <div th:if="${error}">
-        <p th:text="${error}" class="error-message"></p>
-    </div>
-</div>
+
+<section th:if="${sensorData.spo2 >=101 && sensorData.spo2 <= 9999}" class="error-section">
+    <h2>데이터 오류</h2>
+    <p>산소포화도 값에 문제가 있습니다. 다시 측정해주세요.</p>
+</section>
+
+<section th:if="${sensorData.spo2 <= 94}" class="critical-section">
+    <h2>위험 산소포화도</h2>
+    <p>산소포화도 값이 매우 낮습니다. 즉시 의사와 상담하세요!</p>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('section'); // 모든 섹션 선택
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible'); // 섹션이 화면에 나타나면 'visible' 클래스 추가
+
+                    // 섹션 안의 내용들도 1초 뒤에 나타나게 함
+                    const contents = entry.target.querySelectorAll('.section-content');
+                    contents.forEach(content => {
+                        setTimeout(() => content.classList.add('visible'), 1000);
+                    });
+                }
+            });
+        });
+
+        sections.forEach(section => observer.observe(section)); // 모든 섹션을 관찰
+    });
+</script>
 
 </body>
 </html>
